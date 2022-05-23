@@ -19,20 +19,20 @@ export default function App() {
 
   console.log("page :", page)
 
-  const [sort, setSort] = useState("asc");
+  const [salarysort, setSalarySort] = useState("desc");
 
-
+  console.log("salary : ", salarysort);
 
 
 
   useEffect(() => {
 
 
-    getData(page);
+    getData(page, salarysort);
 
 
 
-  }, [page])
+  }, [page, salarysort])
 
 
 
@@ -40,17 +40,19 @@ export default function App() {
 
 
 
-  const getData = async (page) => {
+  const getData = async (page, salarysort) => {
 
     setLoding(true);
 
     axios({
 
       method: "get",
-      url: "https://json-server-mocker-masai.herokuapp.com/candidates",
+      url: " http://localhost:8080/tasks",
       params: {
         _page: page,
         _limit: 5,
+        _sort: "salary",
+        _order: `${salarysort}`,
 
       }
 
@@ -79,9 +81,36 @@ export default function App() {
     <div className="App">
       <div>
         {loading && <div id="loading-container">...Loading</div>}
-        <Button id="SORT_BUTTON" title={`Sort by Ascending Salary`} />
-        <Button title="PREV" id="PREV" />
-        <Button id="NEXT" title="NEXT" />
+
+
+        {
+
+          salarysort === "desc" ? <>
+
+            <Button id="SORT_BUTTON" title={`Sort by Ascending Salary`} onClick={() => setSalarySort("asc")} />
+
+
+          </> :
+
+            <>
+
+              <Button id="SORT_BUTTON" title={`Sort by Descending Salary`} onClick={() => setSalarySort("desc")} />
+
+            </>
+
+        }
+
+
+
+
+
+
+
+
+        <Button title="PREV" id="PREV" disabled={page === 1} onClick={() => setPage(page - 1)} />
+
+        <Button id="NEXT" title="NEXT" onClick={() => setPage(page + 1)} />
+
       </div>
       {data.map((item) =>
 
