@@ -47,7 +47,7 @@ export default function App() {
     axios({
 
       method: "get",
-      url: " http://localhost:8080/tasks",
+      url: "https://json-server-mocker-masai.herokuapp.com/candidates",
       params: {
         _page: page,
         _limit: 5,
